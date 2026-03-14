@@ -146,6 +146,35 @@ async function runMigrations(): Promise<void> {
       console.log('✅ Migration: user_id column added to operations table');
     }
 
+    // Fix categories unique constraint to be per-user instead of global
+    try {
+      await pool.execute(`ALTER TABLE categories DROP INDEX uk_categories_name`);
+      await pool.execute(`ALTER TABLE categories ADD UNIQUE KEY uk_categories_user_name (user_id, name)`);
+      console.log('✅ Migration: Fixed categories unique constraint to be per-user');
+    } catch (err: any) {
+      // Ignore errors - constraint might already be fixed or have data conflicts
+    }
+
+    // Seed default categories for users who don't have any (ignore duplicates)
+    const { v4: uuidv4 } = await import('uuid');
+    const [allUsers]: any = await pool.query(`SELECT id FROM users`);
+    const defaultCategories = ['Electronics', 'Hardware', 'Raw Materials', 'Finished Goods', 'Office Supplies'];
+    let seededCount = 0;
+    for (const user of allUsers) {
+      for (const catName of defaultCategories) {
+        try {
+          await pool.execute(
+            'INSERT IGNORE INTO categories (id, user_id, name, description) VALUES (?, ?, ?, ?)',
+            [uuidv4(), user.id, catName, 'Default category']
+          );
+          seededCount++;
+        } catch (e) { /* ignore duplicates */ }
+      }
+    }
+    if (seededCount > 0) {
+      console.log(`✅ Seeded ${seededCount} default categories`);
+    }
+
     console.log('✅ All migrations completed');
   } catch (err: any) {
     console.log('⚠️ Migration error:', err.message);

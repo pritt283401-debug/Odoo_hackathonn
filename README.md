@@ -1,102 +1,94 @@
-# CoreInventory IMS
+# CoreInventory - Inventory Management System
 
-A full-stack Inventory Management System built with:
-- **Frontend**: Next.js 14 (App Router) — port 3000
-- **Backend**: Express.js REST API — port 4000
-- **Database**: MySQL 8+ (local)
+A full-stack Inventory Management System (IMS) for hackathon submission.
 
----
+## 🚀 Features
 
-## Prerequisites
+- **Authentication** - JWT + OTP Password Reset
+- **Product Management** - SKU, Categories, UOM, Min Stock
+- **Operations** - Receipts, Deliveries, Transfers, Adjustments
+- **Real-time Stock** - Automatic updates on operations
+- **Multi-warehouse** - Multiple warehouses & locations
+- **Dashboard** - KPIs, low stock alerts, recent activity
+- **User Isolation** - Each user has separate data
 
-- Node.js v18+
-- MySQL 8+ running locally
+## 🛠 Tech Stack
 
----
+- **Frontend**: Next.js 14, TypeScript
+- **Backend**: Express.js, TypeScript  
+- **Database**: MySQL 8+
+- **Auth**: JWT tokens
 
-## Quick Start
+## 📋 Prerequisites
 
-### 1. Configure Database
+- Node.js 18+
+- MySQL 8+
 
-Copy `.env.example` to `.env` and fill in your MySQL credentials:
+## 🔧 Setup for Judges
+
+### 1. Database Setup
 ```bash
-cd backend
-copy .env.example .env
-# Edit .env with your DB_PASSWORD
+mysql -u root -p
+CREATE DATABASE core_inventory;
+exit
 ```
 
-### 2. Install Dependencies
-
+### 2. Backend
 ```bash
-# Backend
 cd backend
 npm install
-
-# Frontend
-cd ../frontend
-npm install
-```
-
-### 3. Setup Database
-
-```bash
-cd backend
-npm run db:setup
-```
-
-This creates the database, applies the schema, and seeds demo data.
-
-### 4. Start the Application
-
-Open **two terminals**:
-
-**Terminal 1 – Backend:**
-```bash
-cd backend
+# Create .env file with DB credentials
 npm run dev
 ```
+Runs on: http://localhost:4000
 
-**Terminal 2 – Frontend:**
+### 3. Frontend  
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
+Runs on: http://localhost:3000
 
-Open http://localhost:3000
+## 📝 Environment Files
 
----
+**backend/.env:**
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=core_inventory
+JWT_SECRET=any_secret_key
+PORT=4000
+```
 
-## Demo Credentials
+**frontend/.env.local:**
+```
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+```
 
-| Role    | Email                        | Password  |
-|---------|------------------------------|-----------|
-| Manager | admin@coreinventory.com      | password  |
-| Staff   | staff@coreinventory.com      | password  |
+## 🔑 Key Features Implemented
 
----
+✅ User signup/login with OTP password reset
+✅ Product CRUD with categories
+✅ Receipts (incoming stock)
+✅ Deliveries (outgoing stock)  
+✅ Internal transfers
+✅ Stock adjustments
+✅ Dashboard with KPIs
+✅ Low stock alerts
+✅ Multi-warehouse support
+✅ Complete stock ledger
 
-## Features
+## 🎯 Demo Flow
 
-- 🔐 JWT Auth + OTP Password Reset
-- 📊 Real-time Dashboard KPIs
-- 📦 Product Management (SKU, Category, UOM, Min Stock)
-- 🚚 Receipts — Increase stock from vendor
-- 🛒 Deliveries — Decrease stock for orders
-- 🔄 Internal Transfers — Move between locations
-- ⚖️ Adjustments — Fix physical count discrepancies
-- 📜 Stock Ledger — Immutable audit trail
-- 🏭 Multi-warehouse & Location management
-- ⚠️ Low stock alerts
+1. Sign up as new user
+2. Create products (default categories auto-created)
+3. Create warehouse & locations
+4. Create receipt operation → stock increases
+5. Create delivery operation → stock decreases
+6. View dashboard & stock ledger
 
----
+## 👥 Team
 
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/signup` | Register |
-| POST | `/api/auth/login` | Login (returns JWT) |
-| GET  | `/api/dashboard` | KPIs + recent ops |
-| GET/POST | `/api/products` | List / Create products |
-| POST | `/api/operations/:id/validate` | Atomic stock update |
-| GET  | `/api/ledger` | Stock move history |
+- [Your Name] - Full Stack Developer

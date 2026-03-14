@@ -175,7 +175,7 @@ tbody tr:hover { background: #f8fafc; }
 /* ─── Layout ─── */
 .layout { display: flex; height: 100vh; overflow: hidden; background: var(--bg); }
 .page-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; margin-left: var(--sidebar-w); transition: margin-left var(--transition); }
-.page-header { height: var(--header-h); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: var(--bg); }
+.page-header { min-height: var(--header-h); padding: 24px 32px 16px 32px; display: flex; align-items: flex-end; justify-content: space-between; flex-shrink: 0; background: var(--bg); }
 .page-body { flex: 1; overflow-y: auto; padding: 0 32px 32px 32px; }
 .page-title { font-size: 24px; font-weight: 600; color: var(--text); }
 .page-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
